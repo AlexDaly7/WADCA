@@ -1,0 +1,52 @@
+/*Partials CSS*/
+.navbar {
+    border:4px gold ridge;
+    width:8rem;
+    padding:1rem;
+    background-color:blanchedalmond;
+    text-align: center;
+}
+.navbar > h4 {
+    margin:0;
+    font-size:1.4rem;
+    width:100%;
+    border-bottom:black 1px ridge;
+    margin-bottom:0.5rem;
+    transition: all 3s;
+}
+.navbar > h4:hover {
+    text-shadow:red 1.3px 1.3px;
+    transform:scale(115%);
+}
+.navbar > a {
+    display:block;
+    list-style:none;
+    text-decoration:none;
+    color:black;
+    text-shadow:1px 1px white;
+    font-size:1.2rem;
+    transition:all 1s;
+}
+.navbar > a:hover {
+    color:darkblue;
+    transform:scale(110%);
+}
+
+/*Index CSS*/
+.indexHeader {
+    margin:auto;
+    text-align:center;
+    width:40%;
+    border:black 5px ridge;
+    margin-top:2rem;
+    padding:0.5rem;
+    background-color:beige;
+}
+.indexHeader > h2 {
+    font-size:2.5rem;
+    font-variant:small-caps;
+}
+.indexHeader > p {
+    font-size:1.8rem;
+
+}
