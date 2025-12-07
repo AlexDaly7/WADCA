@@ -1,9 +1,22 @@
 const express = require("express");
 const app = express();
 const fs = require("fs");
+const { connectDB } = require("./util/mongodb.js");
+
+// Express variables
+const port = 3000;
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
+
+async function serverStart() {
+    try {
+        await connectDB();
+        app.listen(port, () => {console.log(`Server running on https://localhost:${port}`)});
+    } catch(e) {
+        console.error("An error occured while starting the server: ", e);
+    }
+}
 
 // Index
 app.get("/", (req, res) => {
@@ -33,6 +46,4 @@ app.use((req, res, next) => {
     res.render("404", {request: toString(req)})
 });
 
-app.listen(3000, () => {
-    console.log("Server running on https://localhost:3000")
-});
+serverStart();
