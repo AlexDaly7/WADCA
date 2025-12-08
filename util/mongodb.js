@@ -1,28 +1,21 @@
-// Imports
-const MongoClient = import("mongodb").MongoClient;
-// DB variable
+import Mongoose from "mongoose";
+const url = 'mongodb+srv://Alex:cLDomYFI1qMGVVtm@wadca.bvq9g1h.mongodb.net/?appName=WADCA';
 let db;
 
 async function connectDB() {
-    // MongoDB variables
-    const url = "mongodb://localhost:27017";
-    const client = new MongoClient(url);
-    const dbName = "WADCA";
-
-    //MongoDB connection
-    client.connect()
-        .then(() => {
-            console.log("MongoDB connection made");
-            db = client.db(dbName);
-        });
-    return db
-}
-
-async function getDB() {
-    if(!db) {
-        throw new Error("The database has not been connected");
-    } else {
-        return db;
+    try {
+        db = Mongoose.connect(url);
+        console.log("The database has been connected successfully");
+    } catch(e) {
+        console.log("There was a problem connecting to database: "+e);
     }
 }
-export {getDB,connectDB};
+
+async function closeDB() {
+    if(!db) {
+        console.log("The database is not connected");
+    } else {
+        db.close();
+    }
+}
+export {connectDB, closeDB}; 

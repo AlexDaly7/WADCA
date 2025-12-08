@@ -32,6 +32,38 @@
     transform:scale(110%);
 }
 
+/*Login CSS*/
+#loginMain {
+    margin:auto;
+    margin-top:2rem;
+    background-color:blanchedalmond;
+    padding:2rem;
+    width:30%;
+    text-align:center;
+    border:5px gold ridge;
+}
+#loginMain > h2 {
+    font-size:2rem;
+}
+#loginMain > form {
+    font-size:1.2rem;
+    text-align:left;
+    width:50%;
+    margin:auto;
+}
+#loginMain > form > input {
+    padding:8px;
+    margin:0.4rem;
+    width:88%;
+    font-size:0.8rem;
+}
+#submitbtn {
+    margin:0 35%;
+    width:5rem;
+    padding:0.4rem;
+    font-size:1rem;
+}
+
 /*Index CSS*/
 .indexHeader {
     margin:auto;

@@ -1,10 +1,14 @@
+// Express init
 const express = require("express");
 const app = express();
+const port = 3000;
+
+// Router imports
+const loginRout = import("./backend/routers/login.js");
+
 const fs = require("fs");
 const { connectDB } = require("./util/mongodb.js");
-
-// Express variables
-const port = 3000;
+const { userCreateCol, userCreate, userLogin } = require("./backend/mongoUtil/userInterface.js")
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -12,6 +16,13 @@ app.set("view engine", "ejs");
 async function serverStart() {
     try {
         await connectDB();
+        const login = await loginRout;
+        app.use("/login/", login.rout);
+
+        app.use((req, res, next) => {
+            res.render("404", {request: toString(req)})
+        });
+
         app.listen(port, () => {console.log(`Server running on https://localhost:${port}`)});
     } catch(e) {
         console.error("An error occured while starting the server: ", e);
@@ -21,6 +32,10 @@ async function serverStart() {
 // Index
 app.get("/", (req, res) => {
     res.render("index", {title:"Hello!"});
+});
+
+app.get("/test", (req, res) => {
+    res.render("login");
 });
 
 app.post("/newVisitor", (req, res) => {
@@ -39,11 +54,8 @@ app.get("/getVisitors", (req, res) => {
         const visCount = parseInt(data);
         res.send(visCount);
     })
-})
-
-// 404 Page
-app.use((req, res, next) => {
-    res.render("404", {request: toString(req)})
 });
 
 serverStart();
+
+// 404 Page
