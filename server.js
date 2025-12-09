@@ -4,10 +4,10 @@ const app = express();
 const port = 3000;
 
 // Router imports
-const loginRout = import("./backend/routers/login.js");
+const userRout = import("./backend/routers/user.js");
 
 const fs = require("fs");
-const { connectDB } = require("./util/mongodb.js");
+const { connectDB } = require("./backend/util/mongoose.js");
 const { userCreateCol, userCreate, userLogin } = require("./backend/mongoUtil/userInterface.js")
 
 app.use(express.static("public"));
@@ -16,8 +16,8 @@ app.set("view engine", "ejs");
 async function serverStart() {
     try {
         await connectDB();
-        const login = await loginRout;
-        app.use("/login/", login.rout);
+        const user = await userRout;
+        app.use("/user/", user.rout);
 
         app.use((req, res, next) => {
             res.render("404", {request: toString(req)})
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
     res.render("index", {title:"Hello!"});
 });
 
-app.get("/test", (req, res) => {
+app.get("/login", (req, res) => {
     res.render("login");
 });
 

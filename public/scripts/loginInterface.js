@@ -1,20 +1,53 @@
+let toggleLogin = true;
+
 window.addEventListener("load", () => {
-    const form = document.getElementById("submitbtn");
-    form.addEventListener("click", async () => {
+    const formbtn = document.getElementById("loginbtn");
+    formbtn.addEventListener("click", async () => {
         let userFound = true;
         const username = document.getElementById("loginName");
         const password = document.getElementById("loginPass");
         const output = document.getElementById("loginOutput");
-        await fetch("/login/login/"+username.value+"/"+password.value, {method: "GET"})
-        .then(response => {
-            console.log(response.status);
-            if(response.status==200) {
-                response = response.json(); 
-                console.log(response.userId);
-            } else if(response.status==404) {
-                console.error("That user was not found.");
+        
+        if(username.value!=""&&password.value!="") {
+            if(toggleLogin) {
+                await fetch("/user/login/"+username.value+"/"+password.value, {method: "GET"})
+                    .then(async response => {
+                        console.log(response.status);
+                        if(response.status===200) {
+                            response = await response.json();
+                            localStorage.setItem("userID", response.userID);
+                            output.innerHTML = "You have been signed in!";
+                        } else if(response.status===204) {
+                            console.error("That user was not found.");
+                            output.innerHTML = "Your details are incorrect, please try again";
+                        }
+                    });
+            } else {
+                await fetch("/user/create/"+username.value+"/"+password.value, {method: "GET"})
+                    .then(async response => {
+                        console.log(response.status);
+                        if(response.status===200) {
+                            response = await response.json();
+                            localStorage.setItem("userID", response.userID);
+                            output.innerHTML = "Your account has been created!";
+                        } else if(response.status===204) {
+                            output.innerHTML = "There is already an account with that name."
+                        }
+                    });
             }
-             
-        })
+        } else {
+            output.innerHTML = "Please enter your details";
+        }
+    });
+    const togglebtn = document.getElementById("loginToggle");
+    togglebtn.addEventListener("click", () => {
+        if(toggleLogin) {
+            formbtn.innerHTML="Sign up";
+            togglebtn.innerHTML="Login.";
+        } else {
+            formbtn.innerHTML="Login.";
+            togglebtn.innerHTML="Sign up";
+        }
+        toggleLogin=!toggleLogin;
     });
 });

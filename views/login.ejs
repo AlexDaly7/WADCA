@@ -6,16 +6,20 @@
         <script src="/scripts/loginInterface.js"></script>
     </head>
     <body>
+        <%- include("./partials/nav.ejs") %>
         <div id="loginMain">
             <h2>Please enter your details</h2>
             <form onsubmit="return false;">
                 <label>Username</label><br>
-                <input type="text" required name="loginName" id="loginName">
+                <input type="text" name="loginName" id="loginName">
                 <br>
                 <label>Password</label><br>
-                <input type="text" required name="loginPass" id="loginPass">
+                <input type="text" name="loginPass" id="loginPass">
                 <br>
-                <button id="submitbtn" type="submit">Login.</button>
+                <button id="loginbtn" type="submit">Login.</button>
+                <button id="loginToggle">Sign Up</button>
+                <br>
+                <p id="loginOutput"></p>
             </form>
 
         </div>

@@ -11,22 +11,28 @@ rout.get("/login/:username/:password", async (req, res) => {
             userID: response
         });
     } else {
-        res.status(404).json({
-            success: false
+        res.status(204).json({
+            userID: 0
         })
     }
 });
 
-rout.post("/create/:username/:password", (req, res) => {
-    let userBool = userCreate(req.params.username, req.params.password);
-    if(userBool) {
-        res.send();
-        console.log("User was created!");
+rout.get("/auth/:userID", (req, res) => {
+
+});
+
+rout.get("/create/:username/:password", async (req, res) => {
+    let user = await userCreate(req.params.username, req.params.password);
+    console.log("user: "+user);
+    if(user!=0) {
+        res.status(200).json({
+            userID: user 
+        })
     } else {
         console.log("There was a problem creating the user");
-        res.send("There was a problem creating the user");
+        res.status(204).json({
+            userID: 0
+        });
     }
-    return userBool;
 });
-console.log(rout+"HIII");
 export { rout };

@@ -63,6 +63,16 @@
     padding:0.4rem;
     font-size:1rem;
 }
+#loginToggle {
+    display:block;
+    position:relative;
+    right:7rem;
+    border:none;
+    background:none;
+    text-decoration:underline;
+    color:steelblue;
+    font-size:1rem;
+}
 
 /*Index CSS*/
 .indexHeader {
