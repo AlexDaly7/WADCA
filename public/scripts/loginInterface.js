@@ -23,17 +23,21 @@ window.addEventListener("load", () => {
                         }
                     });
             } else {
-                await fetch("/user/create/"+username.value+"/"+password.value, {method: "GET"})
-                    .then(async response => {
-                        console.log(response.status);
-                        if(response.status===200) {
-                            response = await response.json();
-                            localStorage.setItem("userID", response.userID);
-                            output.innerHTML = "Your account has been created!";
-                        } else if(response.status===204) {
-                            output.innerHTML = "There is already an account with that name."
-                        }
-                    });
+                if(username.value.length>=5&&password.value.length>=5) {
+                    await fetch("/user/create/"+username.value+"/"+password.value, {method: "GET"})
+                        .then(async response => {
+                            console.log(response.status);
+                            if(response.status===200) {
+                                response = await response.json();
+                                localStorage.setItem("userID", response.userID);
+                                output.innerHTML = "Your account has been created!";
+                            } else if(response.status===204) {
+                                output.innerHTML = "There is already an account with that name."
+                            }
+                        });
+                } else {
+                    output.innerHTML = "Please make sure your username and password are longer than 5 characters."
+                }
             }
         } else {
             output.innerHTML = "Please enter your details";

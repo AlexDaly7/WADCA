@@ -1,0 +1,25 @@
+<header>
+    <script>
+        const toggleDrop = false;
+        const dropdown = document.getElementById("setDropdown");
+
+        window.addEventListener("load", () => {
+            const btn = document.getElementById("settings");
+            btn.addEventListener("click", () => {
+                if(toggleDrop) {
+                    toggleDrop=!toggleDrop;
+                    dropdown.style.display = "block";
+                } else {
+                    toggleDrop=!toggleDrop;
+                    dropdown.style.display = "none";
+                }
+            });
+        });
+    </script>
+    <button id="settings">⚙</button>
+    <div id="setDropdown">
+        <ul>
+            <li></li>
+        </ul>
+    </div>
+</header>

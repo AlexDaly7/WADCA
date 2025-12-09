@@ -5,10 +5,10 @@ const port = 3000;
 
 // Router imports
 const userRout = import("./backend/routers/user.js");
+const trackRout = import("./backend/routers/track.js");
 
 const fs = require("fs");
 const { connectDB } = require("./backend/util/mongoose.js");
-const { userCreateCol, userCreate, userLogin } = require("./backend/mongoUtil/userInterface.js")
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
@@ -17,9 +17,11 @@ async function serverStart() {
     try {
         await connectDB();
         const user = await userRout;
+        const track = await trackRout;
+        app.use("/track/", track.rout);
         app.use("/user/", user.rout);
 
-        app.use((req, res, next) => {
+        app.use((req, res) => {
             res.render("404", {request: toString(req)})
         });
 
@@ -36,6 +38,14 @@ app.get("/", (req, res) => {
 
 app.get("/login", (req, res) => {
     res.render("login");
+});
+
+app.get("/tracks", (req, res) => {
+    res.render("trackList");
+})
+
+app.get("/myProfile", (req, res) => {
+    res.render("myProfile");
 });
 
 app.post("/newVisitor", (req, res) => {

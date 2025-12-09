@@ -2,16 +2,15 @@ import Mongoose from 'mongoose';
 import { nanoid } from 'nanoid';
 
 const schema = {
-    userID: String,
-    username: String,
-    password: String,
-    dateCreated: Date
+    userID: { type: String, required: true },
+    username: { type: String, required: true, min: 5, max: 40},
+    password: { type: String, required: true, min: 5, max: 40},
+    dateCreated: { type: Date, required: true }
 }
 
 const userMod = Mongoose.model("users", schema);
 
 async function userCreate(userIn, passIn) {
-    console.log(await userMod.findOne({username: userIn}));
     if(await userMod.findOne({username: userIn})===null) {
         const userId = nanoid();
         const user = new userMod({
@@ -48,9 +47,9 @@ async function userLogin(user, pass) {
 async function userAuth(userId) {
     return userMod.find({userID: userId})
         .then((result) => {
-            return true
+            return true;
         }).catch((e) => {
-            return null;
+            return false;
         });
 }
 

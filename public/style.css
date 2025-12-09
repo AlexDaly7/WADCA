@@ -1,35 +1,38 @@
 /*Partials CSS*/
 .navbar {
     border:4px gold ridge;
-    width:8rem;
     padding:1rem;
     background-color:blanchedalmond;
-    text-align: center;
 }
 .navbar > h4 {
     margin:0;
     font-size:1.4rem;
-    width:100%;
     border-bottom:black 1px ridge;
-    margin-bottom:0.5rem;
     transition: all 3s;
+    float:left;
+    margin-right:1rem;
 }
 .navbar > h4:hover {
     text-shadow:red 1.3px 1.3px;
     transform:scale(115%);
 }
 .navbar > a {
-    display:block;
+    display:inline-block;
     list-style:none;
     text-decoration:none;
     color:black;
     text-shadow:1px 1px white;
     font-size:1.2rem;
     transition:all 1s;
+    margin:0.5rem;
 }
 .navbar > a:hover {
     color:darkblue;
-    transform:scale(110%);
+    transform:scale(120%);
+}
+#navLogin {
+    position:relative;
+    float:right;
 }
 
 /*Login CSS*/
@@ -73,6 +76,72 @@
     color:steelblue;
     font-size:1rem;
 }
+/*TrackList CSS*/
+#trackForm {
+    width:80%;
+    margin:auto;
+    margin-top:3rem;
+    padding:3rem;
+    background-color:blanchedalmond;
+    text-align:center;
+    font-size:1.3rem;
+    border:gold 5px ridge;
+}
+#trackInput {
+    width:50%;
+    font-size:1rem;
+    padding:0.4rem;
+}
+#trackbtn {
+    width: 14%;
+    font-size:1rem;
+    padding:1rem;
+    margin-top:1rem;
+}
+#trackList {
+    margin:0;
+    padding:0;
+}
+.trackMain > h1 {
+    font-size:1.4rem;
+    text-align:center;
+    width:30%;
+    margin:2rem auto;
+    padding:1rem;
+    border:gold ridge 4px;
+    background-color:blanchedalmond;
+}
+/*TrackList entries CSS*/
+.trackEntry {
+    list-style:none;
+    width:60%;
+    border:gold ridge 5px;
+    background-color:blanchedalmond;
+    padding:1rem;
+    margin:auto;
+    margin-top:1.2rem;
+}
+.trackEntry > img {
+    width:80px;
+    height:auto;
+    display:block;
+    border:gold ridge 3px;
+}
+.trackEntry > h2 {
+    display:block;
+    font-size:1.4rem;
+    margin:0;
+    padding:0;
+}
+.trackEntry > p {
+    display:block;
+    font-size:1rem;
+    font-weight:400;
+    margin:0;
+    padding:0;
+    font-style:oblique;
+}
+
 
 /*Index CSS*/
 .indexHeader {

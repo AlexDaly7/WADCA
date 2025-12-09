@@ -1,6 +1,6 @@
 import express from 'express';
 let rout = express.Router();
-import { userLogin, userCreate } from '../mongoUtil/userInterface.js';
+import { userLogin, userCreate } from '../models/userModel.js';
 
 // Login POST request
 rout.get("/login/:username/:password", async (req, res) => {
@@ -18,7 +18,7 @@ rout.get("/login/:username/:password", async (req, res) => {
 });
 
 rout.get("/auth/:userID", (req, res) => {
-
+    
 });
 
 rout.get("/create/:username/:password", async (req, res) => {

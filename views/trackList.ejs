@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <title>My tracks</title>
+        <script src="./scripts/trackList.js"></script>
+    </head>
+    <body>
+        <%- include("./partials/nav.ejs") %>
+        <div class="trackMain">
+            <form id="trackForm" onsubmit="return false;">
+                <label>Please enter a songs url from spotify</label><br>
+                <input type="text" id="trackInput"><br>
+                <button type="submit" id="trackbtn">Search for track</button>
+                <br>
+                <p id="trackOutput"></p>
+            </form>
+            <h1>Your tracks are listed below.</h1>
+            <ul id="trackList"></ul>
+        </div>
+    </body>
+</html>
