@@ -6,6 +6,7 @@ const port = 3000;
 // Router imports
 const userRout = import("./backend/routers/user.js");
 const trackRout = import("./backend/routers/track.js");
+const profileRout = import("./backend/routers/profile.js");
 
 const fs = require("fs");
 const { connectDB } = require("./backend/util/mongoose.js");
@@ -16,10 +17,13 @@ app.set("view engine", "ejs");
 async function serverStart() {
     try {
         await connectDB();
-        const user = await userRout;
+        // Establish routers
+        const user = await userRout; 
         const track = await trackRout;
+        const profile = await profileRout;
         app.use("/track/", track.rout);
         app.use("/user/", user.rout);
+        app.use("/profile/", profile.rout);
 
         app.use((req, res) => {
             res.render("404", {request: toString(req)})

@@ -36,7 +36,7 @@ async function getTracks() {
     }
 }
 
-async function displayTracks() {
+async function displayTracks() { // TODO: delete old track entries when called again
     if(tracks.length!=0) {
     const wrapper = document.getElementById("trackList");
         tracks.forEach((track) => {

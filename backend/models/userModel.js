@@ -1,4 +1,5 @@
 import Mongoose from 'mongoose';
+import { createProfile } from './profileModel.js';
 import { nanoid } from 'nanoid';
 
 const schema = {
@@ -12,15 +13,16 @@ const userMod = Mongoose.model("users", schema);
 
 async function userCreate(userIn, passIn) {
     if(await userMod.findOne({username: userIn})===null) {
-        const userId = nanoid();
+        const userIDin = nanoid();
         const user = new userMod({
-            userID: userId,
+            userID: userIDin,
             username: userIn,
             password: passIn,
             dateCreated: Date()
         });
         await user.save();
-        return userId;
+        createProfile(userIDin, userIn);
+        return userIDin;
     } else {
         console.log("There is already an account with that name");
         return 0;
@@ -30,15 +32,12 @@ async function userCreate(userIn, passIn) {
 async function userLogin(user, pass) {
     try {
         return userMod.find({username:user, password:pass})
-        .then((result)=>{
-            console.log("data output: "+result);
-            console.log("Result :",result[0].password+result[0].username);
-            if(!result) { return null }
-            console.log("Found"+result[0].userID);
-            return result[0].userID;
-        }).catch(e => {
-            return null;
-        });
+            .then((result)=>{
+                if(!result) { return null }
+                return result[0].userID;
+            }).catch(e => {
+                return null;
+            });
     } catch(e) {
         throw new Error("An error has occured while logging in: "+e);
     }
@@ -52,5 +51,13 @@ async function userAuth(userId) {
             return false;
         });
 }
+//Regex implementation below gotten from https://stackoverflow.com/a/63435547
+async function userSearch(searchTerms) {  // Uses regex expression to search and return usernames
+    const regex = new RegExp(searchTerms, "i");
+    return userMod.find({username: {$regex: regex}}, "username").limit(2)
+        .then((result)=>{
+            return result;
+        })
+}
 
-export {userCreate, userLogin}
+export {userCreate, userLogin, userSearch}
