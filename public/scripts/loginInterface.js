@@ -18,6 +18,10 @@ window.addEventListener("load", () => {
                             localStorage.setItem("userID", response.userID);
                             localStorage.setItem("username", response.username);
                             output.innerHTML = "You have been signed in!";
+                            // Timeout below gotten from https://flexiple.com/javascript/javascript-sleep
+                            setTimeout(() => {
+                                document.location.href="/";
+                            }, 2000);
                         } else if(response.status===204) {
                             console.error("That user was not found.");
                             output.innerHTML = "Your details are incorrect, please try again";

@@ -33,8 +33,37 @@
 #navLogin {
     position:relative;
     float:right;
+    margin-left:3rem;
 }
-
+.userDisplay {
+    float:right;
+    position:relative;
+    bottom:16px;
+    text-align:center;
+}
+.searchBar {
+    float:right;
+    text-align:center;
+}
+#searchBar {
+    width:80%;
+    float:left;
+}
+.searchbtn {
+    width:85%;
+    display:block;
+    float:left;
+    border-radius:0;
+    border:gray 1px ridge;
+}
+.userDisplay > p {
+    display:inline;
+    float:left;
+    margin:0;
+}
+#logoutBtn {
+    margin-left:1rem;
+}
 /*Login CSS*/
 #loginMain {
     margin:auto;
