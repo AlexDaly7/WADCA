@@ -19,8 +19,8 @@ async function createProfile(userIDin, usernamein) {
 }
 
 async function getProfile(usernamein) {
-    const profile = await profileMod.findOne({username:usernamein})
-        .populate("playlists");
+    const profile = await profileMod.findOne({username:usernamein}, "userID bio playlists")
+        .populate("playlists", "title tracks");
     if(profile!=null) {
         return profile;
     } else {
@@ -32,7 +32,7 @@ async function getProfile(usernamein) {
 async function addPlaylist(userIDin, playlistID) {
     // new mongoose.Types.ObjectId() was a fix found on stackoverflow https://stackoverflow.com/a/77058999
     console.log("UserID: "+userIDin+"\nPlaylistID"+playlistID);
-    const result = await profileMod.updateOne({userID: userIDin}, {$addToSet: {playlists: new Mongoose.Types.ObjectId(playlistID._id)}})
+    const result = await profileMod.updateOne({userID: userIDin}, {$addToSet: {playlists: new Mongoose.Types.ObjectId(playlistID._id)}});
     if(result.modifiedCount!=0) {
         return true;
     } else {
@@ -42,7 +42,8 @@ async function addPlaylist(userIDin, playlistID) {
 
 async function removePlaylist(userIDin, playlistID) {
     // new mongoose.Types.ObjectId() was a fix found on stackoverflow https://stackoverflow.com/a/77058999
-    const result = await profileMod.updateOne({userID: userIDin,}, {$pull: {playlists: playlistID}})
+    const result = await profileMod.updateOne({userID: userIDin}, {$pull: {playlists: new Mongoose.Types.ObjectId(playlistID._id)}});
+    console.log(result);
     if(result.modifiedCount!=0) {
         console.log(result);
         return true;
@@ -52,7 +53,9 @@ async function removePlaylist(userIDin, playlistID) {
 }
 
 async function getPlaylists(userIDin) {
-
+    const result = await profileMod.findOne({userID: userIDin}, "playlists")
+        .populate("playlists", "username title");
+    return result;
 }
 
 export { createProfile, getProfile, getPlaylists, addPlaylist, removePlaylist }

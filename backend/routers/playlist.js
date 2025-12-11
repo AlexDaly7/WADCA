@@ -8,7 +8,6 @@ let rout = express.Router();
     });
 
     rout.post("/createPlaylist/:userID/:username/:title", async (req, res)=>{
-        console.log("playlist!!!");
         const result = await createPlaylist(req.params.userID, req.params.username, req.params.title);
         if(result) {
             res.status(200).json({

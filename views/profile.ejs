@@ -3,12 +3,31 @@
     <head>
         <link rel="stylesheet" href="/style.css">
         <title>My profile!</title>
-        
+        <!--This method of importing an object was found at https://cjohanaja.com/posts/express-ejs-send-objects-frontend/-->
+        <script>
+            const received = <%- JSON.stringify(playlists); %>
+            
+        </script>
     </head>
     <body>
         <%- include("./partials/nav.ejs") %>
         <div id="profile">
             <h1><%= username %></h1>
+            <p><%= bio %></p>
+            
         </div>
+        <h2 id="playListHeader">Playlists</h2>
+        <ul id="profilePlaylists">
+            <% playlists.forEach((playlist)=>{ %>
+                <h3> <%= playlist.title %></h3>
+                <% playlist.tracks.forEach((track)=>{ %>
+                    <li class="trackEntry">
+                        <h2><%= track.name %></h2>
+                        <p><%= track.author %></p>
+                        <img src="<%= track.img %>">
+                    </li>
+                <% }); %><br>
+            <% }); %> 
+                </ul>
     </body>
 </html>

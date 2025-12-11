@@ -47,7 +47,6 @@ async function removeTrack(trackID, userIDin, titlein) { // Removes track to pla
 
 async function getPlaylist(usernamein, titlein) {
         const result = await playlistMod.findOne({ username: usernamein, title: titlein }, "_id")
-        console.log("_id"+result)
         if(result) {
             return result;
         } else {

@@ -1,44 +1,54 @@
 let currentPlaylists;
+let profilePlaylists;
 
 window.addEventListener("load",async ()=>{ // Queues events to happen when the window loads
-    currentPlaylists = await getPlaylists();
-    addPlaylistBtn();
-    populateDropdown();
-    getTracks();
-    displayPlaylist();
-    setupProfileBtns();
+    const userID = localStorage.getItem("userID");
+    if(userID) {
+        currentPlaylists = await getPlaylists();
+        addPlaylistBtn();
+        populateDropdown();
+        getTracks();
+        displayPlaylist();
+        setupProfileBtns();
+        populateProfileDropdown();
+    } else {
+
+    }
 });
 
 async function addPlaylistBtn() {
     const output = document.getElementById("playlistOutput");
-    if(document.getElementById("playlistInput").value!="") {
-        const createPlaylist = document.getElementById("playlistbtn");
-        createPlaylist.addEventListener("click",async ()=>{
-            const title = document.getElementById("playlistInput");
-            const userID = localStorage.getItem("userID");
-            const username = localStorage.getItem("username");
-            await fetch("/playlist/createPlaylist/"+userID+"/"+username+"/"+title.value, { method: "POST"})
-                .then(async response => {
-                    if(response.status===200) {
-                        output.innerHTML = "The playlist "+title.value+" has been created!";
-                        currentPlaylists = await getPlaylists();
-                        populateDropdown();
-                    } else if(response.status===204) {
-                        output.innerHTML = "There is already a playlist with that title. Please try again";
-                    }
-                });
-        
-        });
-    } else {
-        output.innerHTML = "Please enter a playlist title.";
-    }
-}
+    const createPlaylist = document.getElementById("playlistbtn");
+    const title = document.getElementById("playlistInput");
+    createPlaylist.addEventListener("click",async ()=>{
+        if(title.value!=="") {
+            if(title.value.length<=15) {
+                const userID = localStorage.getItem("userID");
+                const username = localStorage.getItem("username");
+                await fetch("/playlist/createPlaylist/"+userID+"/"+username+"/"+title.value, { method: "POST"})
+                    .then(async response => {
+                        if(response.status===200) {
+                            output.innerHTML = "The playlist "+title.value+" has been created!";
+                            currentPlaylists = await getPlaylists();
+                            populateDropdown();
+                        } else if(response.status===204) {
+                            output.innerHTML = "There is already a playlist with that title. Please try again";
+                        }
+                    });
+            } else {
+                output.innerHTML = "Please keep the playlist name under 15 characters."
+            }
+        } else {
+            output.innerHTML = "Please enter a playlist title.";
+        }
+    })
+};
 
 function setupProfileBtns() {
     const addPlaylist = document.getElementById("addToProfile");
-    const removePlaylist = document.getElementById("removeFromPlaylist");
+    const removePlaylist = document.getElementById("removeFromProfile");
 
-    addPlaylist.addEventListener("click", async ()=>{
+    addPlaylist.addEventListener("click",async ()=>{
         const userID = localStorage.getItem("userID");
         if(userID) {
             const playlistSelect = currentPlaylists[document.getElementById("playlistSelect").value];
@@ -46,24 +56,61 @@ function setupProfileBtns() {
             if(response.status===200){
                 console.log("Playlist added");
                 displayPlaylist();
+                populateProfileDropdown()
             } else {
                 console.log("Playlist could not be added");
             }
         } else {
-            const playlistSelect = currentPlaylists[document.getElementById("playlistSelect").value];
-            const response = await fetch("/profile/removePlaylist/"+playlistSelect.username+"/"+playlistSelect.title+"/"+userID, { method: "POST"});
+        
+        }
+    });
+    removePlaylist.addEventListener("click",async ()=>{
+        const userID = localStorage.getItem("userID");
+        const profileSelect = profilePlaylists[document.getElementById("profileSelect").value];
+        if(profileSelect!==undefined) {
+            const response = await fetch("/profile/removePlaylist/"+profileSelect.username+"/"+profileSelect.title+"/"+userID, { method: "POST"});
             if(response.status===200){
                 console.log("Playlist removed");
-                displayPlaylist();
+                populateProfileDropdown();
             } else {
                 console.log("Playlist could not be removed");
             }
+        } else {
+            populateProfileDropdown();
         }
     });
 }
 
-async function getPlaylists() { // Gets and stores current playlists by username in currentPlaylists
+async function getProfile() {
+    const userID = localStorage.getItem("userID");
+    if(userID) {
+        let response = await fetch("/profile/getPlaylists/"+userID, { method: "GET" });
+        response = await response.json();
+        return response.playlists;
+    } else {
+
+    }
+}
+
+async function populateProfileDropdown() {
+    profilePlaylists = await getProfile()
+    const dropdown = document.getElementById("profileSelect");
+    const clearList = document.getElementsByClassName("profileDrop");
+    while(clearList.length > 0) {
+        clearList[0].remove()
+    }
+    for(let i=0;i<profilePlaylists.length;i++) {
+        console.log(profilePlaylists);
+        const option = document.createElement("option");
+        option.value = i;
+        option.classList.add("profileDrop")
+        option.append(document.createTextNode(profilePlaylists[i].title));
+        dropdown.append(option);
+    }
     
+}
+
+async function getPlaylists() { // Gets and stores current playlists by username in currentPlaylists
     const username = localStorage.getItem("username")
     let response = await fetch("/playlist/getPlaylists/"+username, { method: "GET" })
     response = await response.json();
@@ -74,9 +121,9 @@ async function populateDropdown() { // Returns current playlists as dropdown ite
     const clearList = document.getElementsByClassName("playlistDrop");
     const dropdown = document.getElementById("playlistSelect");
     
-    for(let i=0;i<clearList.length;i++) {
-        clearList[i].remove();
-    } 
+    while(clearList.length > 0) {
+        clearList[0].remove()
+    }
     for(let i=0;i<currentPlaylists.length;i++) {
         const option = document.createElement("option");
         option.value = i;
@@ -90,7 +137,6 @@ async function populateDropdown() { // Returns current playlists as dropdown ite
     }
 }
 
-// The two functions below need to be changed slightly and so were copied instead of put elsewhere and called :*(
 
 async function getTracks() { // Gets tracks from fetch request and calls function to display them.
     const userID = localStorage.getItem("userID")
@@ -103,16 +149,15 @@ async function getTracks() { // Gets tracks from fetch request and calls functio
     }
 }
 
-async function displayTracks(tracks) { // Deletes old tracks from list and populates the list with update tracks
+async function displayTracks(tracks) { // Deletes old tracks from list and populates the list with updated tracks
     if(tracks.length!=0) { // Only runs if there are tracks to display
         const wrapper = document.getElementById("trackPlaylist");
         const trackList = document.getElementsByClassName("trackEntry");
-        for(let i=0;i<trackList.length;) { // Removes all old tracks to avoid duplicates
-            trackList[i].remove();
+        while(trackList.length > 0) {
+            trackList[0].remove()
         }
         tracks.reverse();
         displayItems(tracks, "trackEntry", wrapper, true)
-        
     }   
 }
 
@@ -123,18 +168,15 @@ async function displayPlaylist() { // Gets currently selected playlists songs an
         const selectedPlaylist = document.getElementById("playlistSelect").value;
         const playlist = currentPlaylists[selectedPlaylist];
         let playlistSongs = [];
-        console.log(playlist.tracks.length)
         for(let i=0;i<playlist.tracks.length;i++) { // For each stored track ID we must retrieve the details for the song.
             let response = await fetch("/track/returnTrack/"+userID+"/"+playlist.tracks[i], { method: "GET"});
             response = await response.json();
             playlistSongs.push(response.track);
         }
-        console.log("PlaylistSongs: "+playlistSongs);
-
         const wrapper = document.getElementById("playlistList");
         const trackList = document.getElementsByClassName("playlistEntry");
-        for(let i=0;i<trackList.length;) { // Removes all old tracks to avoid duplicates
-            trackList[i].remove();
+        while(trackList.length > 0) {
+            trackList[0].remove()
         }
         playlistSongs.reverse();
         displayItems(playlistSongs, "playlistEntry", wrapper, false);
@@ -155,7 +197,7 @@ function displayItems(array, entryClass, target, boolean) { // Boolean switches 
         const artist = document.createElement("p");
         artist.append(document.createTextNode(track.authorName));
         const addbtn = document.createElement("button");
-        if(boolean) {
+        if(boolean) { // Adds event listener for add/remove depending on boolean
             addbtn.append(document.createTextNode("Add song"));
             addbtn.addEventListener("click",()=>{addTrack(track.trackID)});
         } else {
@@ -163,7 +205,7 @@ function displayItems(array, entryClass, target, boolean) { // Boolean switches 
             console.log("TRACKID: "+track.trackID);
             addbtn.addEventListener("click",()=>{removeTrack(track.trackID)});
         }
-        trackItem.append(name);
+        trackItem.append(name); // Appends created elements to element with target id
         trackItem.append(artist);
         trackItem.append(img);
         trackItem.append(addbtn);

@@ -1,3 +1,8 @@
+/*Global CSS*/
+body {
+    background-color:#fff5e6;
+}
+
 /*Partials CSS*/
 .navbar {
     border:4px gold ridge;
@@ -130,6 +135,7 @@
 #trackList {
     margin:0;
     padding:0;
+    display:flex;
 }
 .trackMain > h1 {
     font-size:1.4rem;
@@ -141,28 +147,29 @@
     background-color:blanchedalmond;
 }
 /*TrackList entries CSS (Also applies to tracks in playlists.ejs*/
-.trackEntry {
+.trackEntry, .playlistEntry {
     list-style:none;
-    width:60%;
+    width:15%;
     border:gold ridge 5px;
     background-color:blanchedalmond;
     padding:1rem;
-    margin:auto;
+    margin:1rem;
     margin-top:1.2rem;
+    height:15rem;
 }
-.trackEntry > img {
+.trackEntry > img, .playlistEntry > img{
     width:80px;
     height:auto;
     display:block;
     border:gold ridge 3px;
 }
-.trackEntry > h2 {
+.trackEntry > h2, .playlistEntry > h2 {
     display:block;
     font-size:1.4rem;
     margin:0;
     padding:0;
 }
-.trackEntry > p {
+.trackEntry > p, .playlistEntry > p {
     display:block;
     font-size:1rem;
     font-weight:400;
@@ -207,25 +214,26 @@
     padding:0;
     width:40%;
     float:left;
+    display:flex;
 }
 #playlistList  {
     margin:0;
     padding:0;
     width:40%;
     float:right;
+    display:flex;
 }
-#trackPlaylist > h1, #playlistList > h1 {
+#playlistWrapper > h1 {
     font-size:1.4rem;
     text-align:center;
-    width:100%;
+    width:30%;
     padding:1rem;
     border:gold ridge 4px;
     background-color:blanchedalmond;
+    display:inline-block;
 }
-
-#trackPlaylist > li, #playlistList > li  {
-    width:100%;
-
+#playlistHeader {
+    float:right;
 }
 #profileSelectDiv {
     float:right;
@@ -234,35 +242,12 @@
 }
 #addToProfile {
     text-align:center;
+
 }
-.playlistEntry {
-    list-style:none;
-    width:60%;
-    border:gold ridge 5px;
-    background-color:blanchedalmond;
-    padding:1rem;
-    margin:auto;
-    margin-top:1.2rem;
-}
-.playlistEntry > img {
-    width:80px;
-    height:auto;
-    display:block;
-    border:gold ridge 3px;
-}
-.playlistEntry > h2 {
-    display:block;
-    font-size:1.4rem;
-    margin:0;
-    padding:0;
-}
-.playlistEntry > p {
-    display:block;
+#playlistSelect {
+    width:15rem;
     font-size:1rem;
-    font-weight:400;
-    margin:0;
-    padding:0;
-    font-style:oblique;
+    padding:0.5rem;
 }
 
 /*Index CSS*/
@@ -282,4 +267,39 @@
 .indexHeader > p {
     font-size:1.8rem;
 
+}
+
+/*Profile CSS*/
+#profile {
+    border:gold ridge 4px;
+    background-color:blanchedalmond;
+    width:30rem;
+    margin:3rem;
+    padding:2rem;
+    min-height:20rem;
+}
+#profile > h1 {
+    margin:0;
+    padding:0;
+}
+
+#playListHeader {
+    font-size:2rem;
+    border:gold ridge 4px;
+    background-color:blanchedalmond;
+    width:10rem;
+    text-align:center;
+    padding:1rem;
+}
+#profilePlaylists > .trackEntry {
+    width:10rem;
+    display:inline-table;
+}
+#profilePlaylists > h3 {
+    font-size:1.8rem;
+    border:gold ridge 4px;
+    background-color:blanchedalmond;
+    width:15rem;
+    text-align:center;
+    padding:1rem;
 }
