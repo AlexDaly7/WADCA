@@ -1,5 +1,5 @@
 import express from 'express';
-import { addTrack, returnTracks } from '../models/trackModel.js';
+import { addTrack, returnTracks, returnTrack } from '../models/trackModel.js';
 let rout = express.Router();
 
 rout.get("/getTrack/:trackID/:userID", async (req, res) => {
@@ -20,17 +20,28 @@ rout.get("/getTrack/:trackID/:userID", async (req, res) => {
 });
 
 rout.get("/getTracks/:userID", async (req, res) => { // Returns list of tracks that have matching userID's in an array
-    try {
-        console.log("getTracks");
-        let trackArr = await returnTracks(req.params.userID);
+    let trackArr = await returnTracks(req.params.userID);
+    if(trackArr) {
         res.status(200).json({
             tracks: trackArr
         });
-    } catch(e) {
+    } else {
         res.status(204).json({
             tracks: null
         });
-        throw new Error("An error occured while fetching songs: "+e);
+    }
+});
+
+rout.get("/returnTrack/:userID/:trackID", async (req, res)=> {
+    let trackout = await returnTrack(req.params.userID, req.params.trackID);
+    if(trackout) {
+        res.status(200).json({
+            track: trackout
+        });
+    } else {
+        res.status(204).json({
+            track: null
+        });
     }
 });
 

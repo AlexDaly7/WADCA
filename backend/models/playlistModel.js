@@ -4,42 +4,64 @@ const schema = {
     userID: { type: String, required: true },
     username: { type: String, required: true },
     title: { type: String, require: true },
-    desc: { type: String, required: true },
     tracks: { type: [String] }
 }
 
-const playlistMod = Mongoose.model("profiles", schema);
+const playlistMod = Mongoose.model("playlists", schema);
 
-async function createPlaylist(userIDin, usernamein, titlein, descin) {
+async function createPlaylist(userIDin, usernamein, titlein) {
     const titleCheck = await playlistMod.find({ title: titlein });
     if(titleCheck.length===0) {
         const playlist = new playlistMod({
             userID: userIDin,
             username: usernamein,
-            title: titlein,
-            desc: descin
+            title: titlein
         });
+        playlist.save();
         return true;
     } else {
         return false;
     }
 }
 
-async function addTrack(trackID, userIDin) {
-    await playlistMod.updateOne({userID: userIDin},
-        { $addToSet: {tracks: [trackID]}}, (e)=>{
-        if(e){
-            throw new Error("A problem has occured adding a song to a playlist: "+e);
+async function addTrack(trackID, userIDin, titlein) { // Adds track to playlist with matching userID and title
+    const result = await playlistMod.updateOne({userID: userIDin, title: titlein}, {$addToSet: {tracks: [trackID]}})
+    if(result.modifiedCount!=0) {
+        console.log(result);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function removeTrack(trackID, userIDin, titlein) { // Removes track to playlist with matching userID and title
+    console.log("userID: "+userIDin+"\nTitle: "+titlein+"\ntrackID: "+trackID);
+    const result = await playlistMod.updateOne({userID: userIDin, title: titlein}, {$pull: {tracks: trackID}})
+    console.log(result)
+    if(result.modifiedCount!=0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+async function getPlaylist(usernamein, titlein) {
+        const result = await playlistMod.findOne({ username: usernamein, title: titlein }, "_id")
+        console.log("_id"+result)
+        if(result) {
+            return result;
         } else {
-            console.log("Added song to playlist");
+            return null;
         }
-    });
 }
 
-async function getPlaylist(usernamein) {
-        await playlistMod.find({ username: usernamein})
-            .then((result)=>{
-                console.log(result);
-            });
-}
+async function getPlaylists(usernamein) {
+        const result = await playlistMod.find({ username: usernamein })
+        if(result) {
+            return result;
+        } else {
+            return null;
+        }
+}       
 
+export { createPlaylist, addTrack, removeTrack, getPlaylists, getPlaylist }

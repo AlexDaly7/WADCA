@@ -111,7 +111,7 @@
     border:gold ridge 4px;
     background-color:blanchedalmond;
 }
-/*TrackList entries CSS*/
+/*TrackList entries CSS (Also applies to tracks in playlists.ejs*/
 .trackEntry {
     list-style:none;
     width:60%;
@@ -141,7 +141,100 @@
     padding:0;
     font-style:oblique;
 }
+/*Playlist CSS*/
+#playlistForm {
+    width:80%;
+    margin:auto;
+    margin-top:3rem;
+    padding:3rem;
+    background-color:blanchedalmond;
+    font-size:1.3rem;
+    border:gold 5px ridge;
+}
+#playlistInput {
+    width:50%;
+    font-size:1rem;
+    padding:0.4rem;
+}
+#playlistbtn {
+    width: 14%;
+    font-size:1rem;
+    padding:1rem;
+    margin-top:1rem;
+}
+#playlistList {
+    margin:0;
+    padding:0;
+}
 
+/*Playlist tracks CSS */
+#playlistWrapper {
+    width:95%;
+    margin:auto;
+}
+
+#trackPlaylist {
+    margin:0;
+    padding:0;
+    width:40%;
+    float:left;
+}
+#playlistList  {
+    margin:0;
+    padding:0;
+    width:40%;
+    float:right;
+}
+#trackPlaylist > h1, #playlistList > h1 {
+    font-size:1.4rem;
+    text-align:center;
+    width:100%;
+    padding:1rem;
+    border:gold ridge 4px;
+    background-color:blanchedalmond;
+}
+
+#trackPlaylist > li, #playlistList > li  {
+    width:100%;
+
+}
+#profileSelectDiv {
+    float:right;
+    position:relative;
+    bottom:1.5rem;
+}
+#addToProfile {
+    text-align:center;
+}
+.playlistEntry {
+    list-style:none;
+    width:60%;
+    border:gold ridge 5px;
+    background-color:blanchedalmond;
+    padding:1rem;
+    margin:auto;
+    margin-top:1.2rem;
+}
+.playlistEntry > img {
+    width:80px;
+    height:auto;
+    display:block;
+    border:gold ridge 3px;
+}
+.playlistEntry > h2 {
+    display:block;
+    font-size:1.4rem;
+    margin:0;
+    padding:0;
+}
+.playlistEntry > p {
+    display:block;
+    font-size:1rem;
+    font-weight:400;
+    margin:0;
+    padding:0;
+    font-style:oblique;
+}
 
 /*Index CSS*/
 .indexHeader {

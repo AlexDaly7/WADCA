@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+        <title>My playlist</title>
+        <script src="/scripts/playlistLoader.js"></script>
+    </head>
+
+    <body>
+        <%- include("./partials/nav.ejs") %>
+        <div class="playlistMain">
+            <form id="playlistForm" onsubmit="return false;">
+                <label for="playlistInput">Enter playlist name to make a playlist, or select one from below</label><br>
+                <input type="text" name="playlistInput" id="playlistInput"><br>
+                <button type="submit" id="playlistbtn">Create playlist</button>
+                <br>
+                <p id="playlistOutput"></p>
+                <label for="playlistSelect">Please select the playlist to add to.</label><br>
+                <select id="playlistSelect" name="playlistSelect"></select><br>
+                <button id="addToProfile">Add to profile</button>
+                <div id="profileSelectDiv">
+                    <label for="profileSelect">Playlists on profile.</label>
+                    <br>
+                    <select id="profileSelect" name="profileSelect"></select><br>
+                    <button id="removeFromProfile">Remove from profile</button>
+                </div>
+                </select>
+            </form>
+            
+            
+        </div>
+        <div id="playlistWrapper">
+            <ul id="trackPlaylist"><h1>Your tracks are listed below.</h1></ul>
+            <ul id="playlistList"><h1>The selected playlist is listed below...</h1></ul>
+        </div>
+    </body>
+</html>

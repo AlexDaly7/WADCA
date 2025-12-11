@@ -8,7 +8,8 @@ rout.get("/login/:username/:password", async (req, res) => {
     const response = await userLogin(req.params.username, req.params.password);
     if(response!=null) {
         res.status(200).json({ 
-            userID: response
+            userID: response.userID,
+            username: response.username
         });
     } else {
         res.status(204).json({

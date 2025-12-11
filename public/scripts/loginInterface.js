@@ -12,10 +12,11 @@ window.addEventListener("load", () => {
             if(toggleLogin) {
                 await fetch("/user/login/"+username.value+"/"+password.value, {method: "GET"})
                     .then(async response => {
-                        console.log(response.status);
                         if(response.status===200) {
                             response = await response.json();
+                            console.log(response);
                             localStorage.setItem("userID", response.userID);
+                            localStorage.setItem("username", response.username);
                             output.innerHTML = "You have been signed in!";
                         } else if(response.status===204) {
                             console.error("That user was not found.");
@@ -30,6 +31,7 @@ window.addEventListener("load", () => {
                             if(response.status===200) {
                                 response = await response.json();
                                 localStorage.setItem("userID", response.userID);
+                                localStorage.setItem("username", response.username);
                                 output.innerHTML = "Your account has been created!";
                             } else if(response.status===204) {
                                 output.innerHTML = "There is already an account with that name."

@@ -34,7 +34,7 @@ async function userLogin(user, pass) {
         return userMod.find({username:user, password:pass})
             .then((result)=>{
                 if(!result) { return null }
-                return result[0].userID;
+                return { userID: result[0].userID, username: result[0].username };
             }).catch(e => {
                 return null;
             });
@@ -52,7 +52,7 @@ async function userAuth(userId) {
         });
 }
 //Regex implementation below gotten from https://stackoverflow.com/a/63435547
-async function userSearch(searchTerms) {  // Uses regex expression to search and return usernames
+async function userSearch(searchTerms) {  // Uses regex expression to search and return usernames.
     const regex = new RegExp(searchTerms, "i");
     return userMod.find({username: {$regex: regex}}, "username").limit(2)
         .then((result)=>{

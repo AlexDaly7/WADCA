@@ -7,6 +7,7 @@ const port = 3000;
 const userRout = import("./backend/routers/user.js");
 const trackRout = import("./backend/routers/track.js");
 const profileRout = import("./backend/routers/profile.js");
+const playlistRout = import("./backend/routers/playlist.js");
 
 const fs = require("fs");
 const { connectDB } = require("./backend/util/mongoose.js");
@@ -21,9 +22,11 @@ async function serverStart() {
         const user = await userRout; 
         const track = await trackRout;
         const profile = await profileRout;
+        const playlist = await playlistRout;
         app.use("/track/", track.rout);
         app.use("/user/", user.rout);
         app.use("/profile/", profile.rout);
+        app.use("/playlist/", playlist.rout);
 
         app.use((req, res) => {
             res.render("404", {request: toString(req)})
@@ -45,10 +48,10 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/tracks", (req, res) => {
-    res.render("trackList");
+    res.render("tracks");
 })
 
-app.get("/myProfile", (req, res) => {
+app.get("/profile", (req, res) => {
     res.render("myProfile");
 });
 

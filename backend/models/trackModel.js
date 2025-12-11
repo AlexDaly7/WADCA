@@ -12,7 +12,7 @@ const schema = {
 const trackMod = Mongoose.model("tracks", schema);
 
 async function addTrack(userIDin, trackIDin, trackNamein, trackImgin, authorNamein, authorIDin) {
-    let userIDcheck = await trackMod.find({ userID: userIDin, trackID: trackIDin});
+    const userIDcheck = await trackMod.find({ userID: userIDin, trackID: trackIDin});
     if(userIDcheck.length===0) {
         const track = new trackMod ({
             userID: userIDin,
@@ -39,4 +39,13 @@ async function returnTracks(userIDin) {
         });
 }
 
-export { addTrack, returnTracks }
+async function returnTrack(userIDin, trackIDin) {
+    const result = await trackMod.findOne({ userID: userIDin, trackID: trackIDin }, "trackID trackName trackImg authorName");
+    if(result) {
+        return result;
+    } else {
+        return null;
+    }
+}
+
+export { addTrack, returnTracks, returnTrack }

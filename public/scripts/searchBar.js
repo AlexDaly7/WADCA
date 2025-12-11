@@ -18,7 +18,7 @@ window.addEventListener("load", ()=>{
                         searchResult.append(document.createTextNode(response.results[i].username));
                         document.getElementById("searchBtnDiv").append(searchResult);
                         searchResult.addEventListener("click", ()=>{
-                            document.location.href = "/profile/"+response.results[i].username;
+                            document.location.href = "/profile/user/"+response.results[i].username;
                         })
                     }
                 })
