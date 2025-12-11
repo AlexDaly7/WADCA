@@ -1,7 +1,16 @@
-// Express init
-const express = require("express");
+//Dotenv to read .env file and load api keys
+import dotenv from "dotenv";
+
+// Express initu
+import express from "express";
 const app = express();
 const port = 3000;
+
+// Import fs
+import fs from "fs";
+
+// Import function to connect to database
+import { connectDB } from "./backend/util/mongoose.js";
 
 // Router imports
 const userRout = import("./backend/routers/user.js");
@@ -9,15 +18,16 @@ const trackRout = import("./backend/routers/track.js");
 const profileRout = import("./backend/routers/profile.js");
 const playlistRout = import("./backend/routers/playlist.js");
 
-const fs = require("fs");
-const { connectDB } = require("./backend/util/mongoose.js");
+
+
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 async function serverStart() {
     try {
-        await connectDB();
+        await connectDB(); // Connect to database
+        dotenv.config() // Load dotenv
         // Establish routers
         const user = await userRout; 
         const track = await trackRout;

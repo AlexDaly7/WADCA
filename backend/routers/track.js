@@ -1,6 +1,12 @@
 import express from 'express';
 import { addTrack, returnTracks, returnTrack } from '../models/trackModel.js';
-let rout = express.Router();
+
+// Load api keys from .env
+import env from '../config.js';
+const client_id = env.spotifyClient;
+const client_secret = env.spotifySecret;
+
+const rout = express.Router();
 
 rout.get("/getTrack/:trackID/:userID", async (req, res) => {
     try {
@@ -44,9 +50,6 @@ rout.get("/returnTrack/:userID/:trackID", async (req, res)=> {
         });
     }
 });
-
-var client_id = '514266725d9e497d82961f957d9e60f4';
-var client_secret = 'b066e0ea58dc40cfb319cd5b95d37b3a';
 
 // Both of the below functions were taken from https://github.com/spotify/web-api-examples/blob/master/authorization/client_credentials/app.js
 async function getToken() {

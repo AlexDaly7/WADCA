@@ -1,10 +1,10 @@
 import Mongoose from "mongoose";
-const url = 'mongodb+srv://Alex:cLDomYFI1qMGVVtm@wadca.bvq9g1h.mongodb.net/?appName=WADCA';
-let db;
+import env from '../config.js';
 
 async function connectDB() {
     try {
-        db = Mongoose.connect(url);
+        console.log(env.mongooseUri);
+        db = Mongoose.connect(env.mongooseUri);
         console.log("The database has been connected successfully");
     } catch(e) {
         console.log("There was a problem connecting to database: "+e);
