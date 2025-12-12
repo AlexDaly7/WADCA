@@ -1,3 +1,4 @@
+// Imports
 import express from 'express';
 import { addTrack, returnTracks, returnTrack } from '../models/trackModel.js';
 
@@ -74,5 +75,5 @@ async function getTrack(trackID, token) {
     return await response.json();
 }
 
-
+// Expose router object to server.js
 export { rout };

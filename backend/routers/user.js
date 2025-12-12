@@ -18,10 +18,6 @@ rout.get("/login/:username/:password", async (req, res) => {
     }
 });
 
-rout.get("/auth/:userID", (req, res) => {
-    
-});
-
 rout.get("/search/:terms", async (req, res) => {
     try {
         let searchResults = await userSearch(req.params.terms);
@@ -38,7 +34,7 @@ rout.get("/search/:terms", async (req, res) => {
 rout.get("/create/:username/:password", async (req, res) => {
     let user = await userCreate(req.params.username, req.params.password);
     console.log("user: "+user);
-    if(user!=0) {
+    if(user!=null) {
         res.status(200).json({
             userID: user 
         })

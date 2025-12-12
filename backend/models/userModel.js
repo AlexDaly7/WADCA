@@ -1,60 +1,50 @@
+// Imports
 import Mongoose from 'mongoose';
 import { createProfile } from './profileModel.js';
 import { nanoid } from 'nanoid';
 
-const schema = {
+const userMod = Mongoose.model("users", { // Set schema and init model
     userID: { type: String, required: true },
     username: { type: String, required: true, min: 5, max: 40},
     password: { type: String, required: true, min: 5, max: 40},
     dateCreated: { type: Date, required: true }
-}
+});
 
-const userMod = Mongoose.model("users", schema);
-
+// Create user document
 async function userCreate(userIn, passIn) {
+    // If no user document is found with the same username
     if(await userMod.findOne({username: userIn})===null) {
-        const userIDin = nanoid();
-        const user = new userMod({
+        const userIDin = nanoid(); // Generate userID with nanoid package
+        const user = new userMod({ // Create document object
             userID: userIDin,
             username: userIn,
             password: passIn,
             dateCreated: Date()
         });
-        await user.save();
-        createProfile(userIDin, userIn);
+        await user.save(); // Save document to database
+        createProfile(userIDin, userIn); // Create profile for user
         return userIDin;
     } else {
-        console.log("There is already an account with that name");
-        return 0;
+        return null;
     }
 }
 
+// Find document with matching username and password
 async function userLogin(user, pass) {
-    try {
-        return userMod.find({username:user, password:pass})
-            .then((result)=>{
-                if(!result) { return null }
-                return { userID: result[0].userID, username: result[0].username };
-            }).catch(e => {
-                return null;
-            });
-    } catch(e) {
-        throw new Error("An error has occured while logging in: "+e);
+    // Find document with matching user and pass
+    const result = userMod.find({username:user, password:pass}, "userID username");
+    if (result!=0) { // Return if true
+        return true;
+    } else {
+        return false;
     }
 }
 
-async function userAuth(userId) {
-    return userMod.find({userID: userId})
-        .then((result) => {
-            return true;
-        }).catch((e) => {
-            return false;
-        });
-}
-//Regex implementation below gotten from https://stackoverflow.com/a/63435547
+// Search for username using regex expression for search results
+// Regex implementation below gotten from https://stackoverflow.com/a/63435547
 async function userSearch(searchTerms) {  // Uses regex expression to search and return usernames.
-    const regex = new RegExp(searchTerms, "i");
-    return userMod.find({username: {$regex: regex}}, "username").limit(2)
+    const regex = new RegExp(searchTerms, "i"); // Create regex object
+    return userMod.find({username: {$regex: regex}}, "username").limit(2) // Find
         .then((result)=>{
             return result;
         })

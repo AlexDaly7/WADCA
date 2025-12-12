@@ -21,7 +21,7 @@ window.addEventListener("load", () => {
                             // Timeout below gotten from https://flexiple.com/javascript/javascript-sleep
                             setTimeout(() => {
                                 document.location.href="/";
-                            }, 2000);
+                            }, 1000);
                         } else if(response.status===204) {
                             console.error("That user was not found.");
                             output.innerHTML = "Your details are incorrect, please try again";
