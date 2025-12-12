@@ -8,28 +8,28 @@ window.addEventListener("load", () => {
         const password = document.getElementById("loginPass");
         const output = document.getElementById("loginOutput");
         
+        console.log();
         if(username.value!=""&&password.value!="") {
             if(toggleLogin) {
-                await fetch("/user/login/"+username.value+"/"+password.value, {method: "GET"})
-                    .then(async response => {
-                        if(response.status===200) {
-                            response = await response.json();
-                            console.log(response);
-                            localStorage.setItem("userID", response.userID);
-                            localStorage.setItem("username", response.username);
-                            output.innerHTML = "You have been signed in!";
-                            // Timeout below gotten from https://flexiple.com/javascript/javascript-sleep
-                            setTimeout(() => {
-                                document.location.href="/";
-                            }, 1000);
-                        } else if(response.status===204) {
-                            console.error("That user was not found.");
-                            output.innerHTML = "Your details are incorrect, please try again";
-                        }
-                    });
+                let response = await fetch("/user/login/"+username.value+"/"+password.value, {method: "GET"});
+                console.log(response);
+                if(response.status===200) {
+                    response = await response.json();
+                    console.log(response);
+                    localStorage.setItem("userID", response.userID);
+                    localStorage.setItem("username", username.value);
+                    output.innerHTML = "You have been signed in!";
+                    // Timeout below gotten from https://flexiple.com/javascript/javascript-sleep
+                    setTimeout(() => {
+                        document.location.href="/";
+                    }, 1000);
+                } else if(response.status===204) {
+                    console.error("That user was not found.");
+                    output.innerHTML = "Your details are incorrect, please try again";
+                }
             } else {
                 if(username.value.length>=5&&password.value.length>=5) {
-                    await fetch("/user/create/"+username.value+"/"+password.value, {method: "GET"})
+                    await fetch("/user/create/"+username.value+"/"+password.value, {method: "POST"})
                         .then(async response => {
                             console.log(response.status);
                             if(response.status===200) {

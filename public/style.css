@@ -4,6 +4,7 @@ body {
 }
 
 /*Partials CSS*/
+/*NavBar Partial*/
 .navbar {
     border:4px gold ridge;
     padding:1rem;
@@ -40,6 +41,7 @@ body {
     float:right;
     margin-left:3rem;
 }
+/*SearchBar Partial*/
 .userDisplay {
     float:right;
     position:relative;
@@ -68,6 +70,25 @@ body {
 }
 #logoutBtn {
     margin-left:1rem;
+}
+/*Footer Partial*/
+#footer {
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+}
+#footer > p {
+    width:30rem;
+}
+#footer > div > a > img {
+    width:100px;
+    height:auto;
+}
+#visitorText {
+    justify-content:right;
+}
+#spotifyCredit {
+    justify-content:left;
 }
 /*Login CSS*/
 #loginMain {
@@ -149,7 +170,7 @@ body {
 /*TrackList entries CSS (Also applies to tracks in playlists.ejs*/
 .trackEntry, .playlistEntry {
     list-style:none;
-    width:15%;
+    width:40%;
     border:gold ridge 5px;
     background-color:blanchedalmond;
     padding:1rem;
@@ -186,14 +207,20 @@ body {
     background-color:blanchedalmond;
     font-size:1.3rem;
     border:gold 5px ridge;
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:3rem;
 }
 #playlistInput {
     width:50%;
     font-size:1rem;
     padding:0.4rem;
 }
+#playlistMain {
+    width:60%;
+}
 #playlistbtn {
-    width: 14%;
+    width:20rem;
     font-size:1rem;
     padding:1rem;
     margin-top:1rem;
@@ -201,44 +228,44 @@ body {
 #playlistList {
     margin:0;
     padding:0;
+    width:100%;
 }
 
 /*Playlist tracks CSS */
 #playlistWrapper {
     width:95%;
     margin:auto;
+    display:flex;
+    justify-content:space-between;
 }
-
-#trackPlaylist {
+#trackDisplay {
+    justify-content:left;
+    width:55rem;
+    padding:0.5rem;
+}
+#playlistDisplay {
+    justify-content:right;
+    width:55rem;
+    padding:0.5rem;
+}
+#playlistList, #trackPlaylist {
     margin:0;
     padding:0;
     width:40%;
-    float:left;
     display:flex;
+    justify-content:space-between;
 }
-#playlistList  {
-    margin:0;
-    padding:0;
-    width:40%;
-    float:right;
-    display:flex;
-}
-#playlistWrapper > h1 {
+#trackHeader, #playlistHeader {
     font-size:1.4rem;
     text-align:center;
-    width:30%;
     padding:1rem;
     border:gold ridge 4px;
     background-color:blanchedalmond;
-    display:inline-block;
-}
-#playlistHeader {
-    float:right;
 }
 #profileSelectDiv {
-    float:right;
-    position:relative;
-    bottom:1.5rem;
+    justify-content:right;
+    text-align:center;
+    width:28rem;
 }
 #addToProfile {
     text-align:center;

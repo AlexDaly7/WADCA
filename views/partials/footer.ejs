@@ -1,0 +1,15 @@
+<footer id="footer">
+    <script type="module">
+        import { updateVisitors, getVisitors } from "/scripts/viewCounter.js";
+        updateVisitors();
+        getVisitors();
+    </script>
+    <div id="spotifyCredit">
+        <a href="https://open.spotify.com/"><img src="/assets/spotify.png" id="spotifyLink"></a>
+        <p>All track rights to respective owners.</p>
+        <p>All track information was retrieved from the Spotify API.</p>
+    </div>
+    <div id="visitorText">
+        <p><span id="visitors"></span> people have visited so far!</p>
+    </div>
+</footer>

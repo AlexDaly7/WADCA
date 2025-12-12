@@ -113,8 +113,13 @@ async function populateProfileDropdown() {
 async function getPlaylists() { // Gets and stores current playlists by username in currentPlaylists
     const username = localStorage.getItem("username")
     let response = await fetch("/playlist/getPlaylists/"+username, { method: "GET" })
-    response = await response.json();
-    return response.playlists;
+    if(response.status=200) {
+        response = await response.json();
+        return response.playlists;
+    } else if(response.status=204) {
+        return null;
+    }
+    
 }
 
 async function populateDropdown() { // Returns current playlists as dropdown items so user can select one
@@ -141,11 +146,10 @@ async function populateDropdown() { // Returns current playlists as dropdown ite
 async function getTracks() { // Gets tracks from fetch request and calls function to display them.
     const userID = localStorage.getItem("userID")
     if(userID) {
-        await fetch("/track/getTracks/"+userID, { method: "GET" })
-            .then(async response=>{
-                response = await response.json();
-                displayTracks(response.tracks);
-            });
+        let response = await fetch("/track/getTracks/"+userID, { method: "GET" })
+        if(response)
+        response = await response.json();
+        displayTracks(response.tracks);
     }
 }
 
@@ -168,19 +172,20 @@ async function displayPlaylist() { // Gets currently selected playlists songs an
         const selectedPlaylist = document.getElementById("playlistSelect").value;
         const playlist = currentPlaylists[selectedPlaylist];
         let playlistSongs = [];
-        for(let i=0;i<playlist.tracks.length;i++) { // For each stored track ID we must retrieve the details for the song.
-            let response = await fetch("/track/returnTrack/"+userID+"/"+playlist.tracks[i], { method: "GET"});
-            response = await response.json();
-            playlistSongs.push(response.track);
+        if(playlist) {
+            for(let i=0;i<playlist.tracks.length;i++) { // For each stored track ID we must retrieve the details for the song.
+                let response = await fetch("/track/returnTrack/"+userID+"/"+playlist.tracks[i], { method: "GET"});
+                response = await response.json();
+                playlistSongs.push(response.track);
+            }
+            const wrapper = document.getElementById("playlistList");
+            const trackList = document.getElementsByClassName("playlistEntry");
+            while(trackList.length > 0) {
+                trackList[0].remove()
+            }
+            playlistSongs.reverse();
+            displayItems(playlistSongs, "playlistEntry", wrapper, false);
         }
-        const wrapper = document.getElementById("playlistList");
-        const trackList = document.getElementsByClassName("playlistEntry");
-        while(trackList.length > 0) {
-            trackList[0].remove()
-        }
-        playlistSongs.reverse();
-        displayItems(playlistSongs, "playlistEntry", wrapper, false);
-            
     } else {
         // Not logged in
     }

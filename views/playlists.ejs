@@ -8,8 +8,8 @@
 
     <body>
         <%- include("./partials/nav.ejs") %>
-        <div class="playlistMain">
-            <form id="playlistForm" onsubmit="return false;">
+        <form id="playlistForm" onsubmit="return false;">
+            <div id="playlistMain">
                 <label for="playlistInput">Enter playlist name to make a playlist, or select one from below</label><br>
                 <input type="text" name="playlistInput" id="playlistInput"><br>
                 <button type="submit" id="playlistbtn">Create playlist</button>
@@ -18,21 +18,24 @@
                 <label for="playlistSelect">Please select the playlist to add to.</label><br>
                 <select id="playlistSelect" name="playlistSelect"></select><br>
                 <button id="addToProfile">Add to profile</button>
-                <div id="profileSelectDiv">
-                    <label for="profileSelect">Playlists on profile.</label>
-                    <br>
-                    <select id="profileSelect" name="profileSelect"></select><br>
-                    <button id="removeFromProfile">Remove from profile</button>
-                </div>
-            </form>
-            
-            
-        </div>
+            </div>
+            <div id="profileSelectDiv">
+                <label for="profileSelect">Playlists on profile.</label>
+                <br>
+                <select id="profileSelect" name="profileSelect"></select><br>
+                <button id="removeFromProfile">Remove from profile</button>
+            </div>
+        </form>
         <div id="playlistWrapper">
-            <h1 id="trackHeader">Your tracks are listed below.</h1>
-            <h1 id="playlistHeader">The selected playlist is listed below...</h1>
-            <ul id="trackPlaylist"></ul>
-            <ul id="playlistList"></ul>
+            <div id="trackDisplay">
+                <h1 id="trackHeader">Your tracks are listed below.</h1>
+                <ul id="trackPlaylist"></ul>
+            </div>
+            <div id="playlistDisplay">
+                <h1 id="playlistHeader">The selected playlist is listed below...</h1>
+                <ul id="playlistList"></ul>
+            </div>
         </div>
+        <%- include("./partials/footer.ejs") %>
     </body>
 </html>

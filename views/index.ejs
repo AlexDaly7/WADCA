@@ -2,13 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="/style.css">
-        <title><%= title %></title>
-        <script type="module">
-            import { updateVisitors, getVisitors } from "/scripts/viewCounter.js";
-            updateVisitors();
-            getVisitors();
-        </script>
-        
+        <title>Homepage</title>
     </head>
     <body>
         <%- include("./partials/nav.ejs") %>
@@ -21,8 +15,6 @@
             
             
         </div>
-        <div class="footer">
-            <p><span id="visitors"></span> people have visited so far!</p>
-        </div>
+        <%- include("./partials/footer.ejs") %>
     </body>
 </html>

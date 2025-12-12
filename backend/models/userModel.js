@@ -32,9 +32,10 @@ async function userCreate(userIn, passIn) {
 // Find document with matching username and password
 async function userLogin(user, pass) {
     // Find document with matching user and pass
-    const result = userMod.find({username:user, password:pass}, "userID username");
-    if (result!=0) { // Return if true
-        return true;
+    const result = await userMod.findOne({username:user, password:pass}, "userID");
+    console.log(result)
+    if (result!=null) { // Return if true
+        return result;
     } else {
         return false;
     }
@@ -44,10 +45,11 @@ async function userLogin(user, pass) {
 // Regex implementation below gotten from https://stackoverflow.com/a/63435547
 async function userSearch(searchTerms) {  // Uses regex expression to search and return usernames.
     const regex = new RegExp(searchTerms, "i"); // Create regex object
-    return userMod.find({username: {$regex: regex}}, "username").limit(2) // Find
-        .then((result)=>{
-            return result;
-        })
+    const result = userMod.find({username: {$regex: regex}}, "username").limit(2) // Find
+    if(result.length!==0) {
+        return result;
+    }
 }
 
+// Expose functions to routers
 export {userCreate, userLogin, userSearch}

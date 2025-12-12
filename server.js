@@ -1,4 +1,4 @@
-//Dotenv to read .env file and load api keys
+// Dotenv to read .env file and load api keys
 import dotenv from "dotenv";
 
 // Express initu
