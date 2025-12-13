@@ -178,12 +178,12 @@ body {
 .trackEntry, .playlistEntry {
     list-style:none;
     min-width:10rem;
+    min-height:10rem;
     border:gold ridge 5px;
     background-color:blanchedalmond;
     padding:1rem;
     margin:1rem;
     margin-top:1.2rem;
-    height:10rem;
 }
 .trackEntry > img, .playlistEntry > img{
     width:100px;

@@ -1,6 +1,7 @@
-import Mongoose from "mongoose";
+import Mongoose from "mongoose"; // Imports
 import env from '../config.js';
 
+// Connect to database using URI from .env file.
 async function connectDB() {
     try {
         console.log(env.mongooseUri);
@@ -10,11 +11,4 @@ async function connectDB() {
         console.log("There was a problem connecting to database: "+e);
     }
 }
-async function closeDB() {
-    if(!db) {
-        console.log("The database is not connected");
-    } else {
-        db.close();
-    }
-}
-export {connectDB, closeDB}; 
+export {connectDB}; 

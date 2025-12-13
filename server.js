@@ -18,54 +18,54 @@ const trackRout = import("./backend/routers/track.js");
 const profileRout = import("./backend/routers/profile.js");
 const playlistRout = import("./backend/routers/playlist.js");
 
+app.use(express.static("public")); // Serve static files
+app.set("view engine", "ejs"); // Init EJS
 
-
-
-app.use(express.static("public"));
-app.set("view engine", "ejs");
-
-async function serverStart() {
+async function serverStart() { // Try to start the server
     try {
         await connectDB(); // Connect to database
         dotenv.config() // Load dotenv
         // Establish routers
-        const user = await userRout; 
+        const user = await userRout; // Get routers
         const track = await trackRout;
         const profile = await profileRout;
         const playlist = await playlistRout;
-        app.use("/track/", track.rout);
+        app.use("/track/", track.rout); // Assign routers to routes
         app.use("/user/", user.rout);
         app.use("/profile/", profile.rout);
         app.use("/playlist/", playlist.rout);
 
-        app.use((req, res) => {
+        app.use((req, res) => { // Init 404 page
             res.render("404", {request: toString(req)})
         });
-
-        app.listen(port, () => {console.log(`Server running on https://localhost:${port}`)});
+        app.listen(port, () => {console.log(`Server running on https://localhost:${port}`)}); // Listen for requests
     } catch(e) {
-        console.error("An error occured while starting the server: ", e);
+        console.error("An error occured while starting the server: ", e); // If problem add to console
     }
 }
 
-// Index
+// Index / Homepage route
 app.get("/", (req, res) => {
-    res.render("index", {title:"Hello!"});
+    res.render("index");
 });
 
+// Login page route
 app.get("/login", (req, res) => {
     res.render("login");
 });
 
+// Track route
 app.get("/tracks", (req, res) => {
     res.render("tracks");
 })
 
+// Profile route
 app.get("/profile", (req, res) => {
     res.render("myProfile");
 });
 
-app.post("/newVisitor", (req, res) => {
+// Visitor count routes
+app.post("/newVisitor", (req, res) => { // Read visitors file and update it by one
     let visCount;
     fs.readFile("visitorCount.txt", "utf8", (err, data) => {
         visCount = parseInt(data);
@@ -76,13 +76,11 @@ app.post("/newVisitor", (req, res) => {
         });
     })
 });
-app.get("/getVisitors", (req, res) => {
+app.get("/getVisitors", (req, res) => { // Read visitor file and return the number
     fs.readFile("visitorCount.txt", "utf8", (err, data) => {
         const visCount = parseInt(data);
         res.send(visCount);
     })
 });
 
-serverStart();
-
-// 404 Page
+serverStart(); // Try to start server.
