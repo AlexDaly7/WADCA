@@ -12,8 +12,10 @@ window.addEventListener("load", () => { // Adds event listener to track search b
             const response = await fetch("/track/getTrack/"+trackID+"/"+userID, { method: "GET"})
             if(response.status===200){
                 console.log("Track has been added.");
+                getTracks();
             } else {
-                console.log("Track has not been added.")
+                console.log("Track has not been added.");
+                getTracks();
             }
         } else {
 
